@@ -93,4 +93,76 @@ TEST(ExecutorTest, should_return_y_minus_1_given_command_is_M_and_facing_is_S)
     ASSERT_EQ(target, executor->Query());
 }
 
+// 测试用例 7：左转指令 L，初始朝向东 (E)，预期朝向北 (N)
+TEST(ExecutorTest, should_return_facing_N_given_command_is_L_and_facing_is_E)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+    executor->Execute("L");
+    const Pose target({0, 0, 'N'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 8：左转指令 L，初始朝向北 (N)，预期朝向西 (W)
+TEST(ExecutorTest, should_return_facing_W_given_command_is_L_and_facing_is_N)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
+    executor->Execute("L");
+    const Pose target({0, 0, 'W'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 9：左转指令 L，初始朝向西 (W)，预期朝向南 (S)
+TEST(ExecutorTest, should_return_facing_S_given_command_is_L_and_facing_is_W)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'W'}));
+    executor->Execute("L");
+    const Pose target({0, 0, 'S'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 10：左转指令 L，初始朝向南 (S)，预期朝向东 (E)
+TEST(ExecutorTest, should_return_facing_E_given_command_is_L_and_facing_is_S)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'S'}));
+    executor->Execute("L");
+    const Pose target({0, 0, 'E'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 11：右转指令 R，初始朝向东 (E)，预期朝向南 (S)
+TEST(ExecutorTest, should_return_facing_S_given_command_is_R_and_facing_is_E)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+    executor->Execute("R");
+    const Pose target({0, 0, 'S'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 12：右转指令 R，初始朝向南 (S)，预期朝向西 (W)
+TEST(ExecutorTest, should_return_facing_W_given_command_is_R_and_facing_is_S)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'S'}));
+    executor->Execute("R");
+    const Pose target({0, 0, 'W'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 13：右转指令 R，初始朝向西 (W)，预期朝向北 (N)
+TEST(ExecutorTest, should_return_facing_N_given_command_is_R_and_facing_is_W)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'W'}));
+    executor->Execute("R");
+    const Pose target({0, 0, 'N'});
+    ASSERT_EQ(target, executor->Query());
+}
+
+// 测试用例 14：右转指令 R，初始朝向北 (N)，预期朝向东 (E)
+TEST(ExecutorTest, should_return_facing_E_given_command_is_R_and_facing_is_N)
+{
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
+    executor->Execute("R");
+    const Pose target({0, 0, 'E'});
+    ASSERT_EQ(target, executor->Query());
+}
+
 }  // namespace adas
