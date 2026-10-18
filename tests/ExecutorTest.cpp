@@ -25,4 +25,14 @@ TEST(ExecutorTest, should_return_init_pose_when_without_command)
     const Pose target({0, 0, 'E'});
     ASSERT_EQ(target, executor->Query());
 }
+TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
+{
+    // given
+    // 注意：这里为了模拟“未初始化”，我们不传入具体的坐标参数，而是依赖接口的默认值
+    std::unique_ptr<Executor> executor(Executor::NewExecutor());
+    // when 无
+    // then
+    const Pose target({0, 0, 'N'});  // 默认预期返回 (0,0,N)
+    ASSERT_EQ(target, executor->Query());
+}
 }  // namespace adas

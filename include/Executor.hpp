@@ -12,7 +12,8 @@ class Executor
 {
 public:
     // Caller should delete *executor when it is no longer needed.
-    static Executor* NewExecutor(const Pose& pose) noexcept;
+    //static Executor* NewExecutor(const Pose& pose) noexcept;
+    static Executor* NewExecutor(const Pose& pose = {0, 0, 'N'}) noexcept;
 
 public:
     Executor(void) = default;
