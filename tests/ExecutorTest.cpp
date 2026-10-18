@@ -165,4 +165,25 @@ TEST(ExecutorTest, should_return_facing_E_given_command_is_R_and_facing_is_N)
     ASSERT_EQ(target, executor->Query());
 }
 
+// 测试用例 15：综合指令测试 (MLMMRM)
+TEST(ExecutorTest, should_return_correct_pose_given_complex_command)
+{
+    // 初始位置 (0,0)，朝向 E
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+
+    // 执行复合指令序列
+    executor->Execute("MLMMRM");
+
+    // 预期结果推导（你可以自己在纸上画一下）：
+    // M: 朝E前进1步 -> (1, 0, 'E')
+    // L: 左转 -> (1, 0, 'N')
+    // M: 朝N前进1步 -> (1, 1, 'N')
+    // M: 朝N前进1步 -> (1, 2, 'N')
+    // R: 右转 -> (1, 2, 'E')
+    // M: 朝E前进1步 -> (2, 2, 'E')
+    const Pose target({2, 2, 'E'});
+
+    ASSERT_EQ(target, executor->Query());
+}
+
 }  // namespace adas
