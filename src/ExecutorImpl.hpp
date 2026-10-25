@@ -3,14 +3,14 @@
 
 namespace adas
 {
-class Executorlmpl final : public Executor
+class ExecutorImpl final : public Executor
 {
 public:
-    explicit Executorlmpl(const Pose& pose) noexcept;
-    ~Executorlmpl() noexcept = default;
+    explicit ExecutorImpl(const Pose& pose) noexcept;
+    ~ExecutorImpl() noexcept = default;
 
-    Executorlmpl(const Executorlmpl&) = delete;
-    Executorlmpl& operator=(const Executorlmpl&) = delete;
+    ExecutorImpl(const ExecutorImpl&) = delete;
+    ExecutorImpl& operator=(const ExecutorImpl&) = delete;
 
 public:
     void Execute(const std::string& command) noexcept override;
@@ -26,7 +26,7 @@ private:
     class MoveCommand final
     {
     public:
-        void DoOperate(Executorlmpl& executor) const noexcept
+        void DoOperate(ExecutorImpl& executor) const noexcept
         {
             executor.Move();
         }
@@ -35,7 +35,7 @@ private:
     class TurnLeftCommand final
     {
     public:
-        void DoOperate(Executorlmpl& executor) const noexcept
+        void DoOperate(ExecutorImpl& executor) const noexcept
         {
             executor.TurnLeft();
         }
@@ -44,7 +44,7 @@ private:
     class TurnRightCommand final
     {
     public:
-        void DoOperate(Executorlmpl& executor) const noexcept
+        void DoOperate(ExecutorImpl& executor) const noexcept
         {
             executor.TurnRight();
         }

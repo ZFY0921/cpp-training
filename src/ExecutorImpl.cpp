@@ -1,4 +1,4 @@
-#include "Executorlmpl.hpp"
+#include "ExecutorImpl.hpp"
 
 #include <memory>
 
@@ -6,29 +6,26 @@ namespace adas
 {
 Executor* Executor::NewExecutor(const Pose& pose) noexcept
 {
-    return new (std::nothrow) Executorlmpl(pose);
+    return new (std::nothrow) ExecutorImpl(pose);
 }
 
-Executorlmpl::Executorlmpl(const Pose& pose) noexcept : pose(pose)
+ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose)
 {
 }
 
-void Executorlmpl::Execute(const std::string& commands) noexcept
+void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
     // 只负责指令的识别与分发，具体行为由对应的指令类实现
     for (const auto cmd : commands) {
         if (cmd == 'M') {
-            // Move();
             std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
 
             cmder->DoOperate(*this);
         } else if (cmd == 'L') {
-            // TurnLeft();
             std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
 
             cmder->DoOperate(*this);
         } else if (cmd == 'R') {
-            // TurnRight();
             std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
 
             cmder->DoOperate(*this);
@@ -36,7 +33,7 @@ void Executorlmpl::Execute(const std::string& commands) noexcept
     }
 }
 
-void Executorlmpl::Move() noexcept
+void ExecutorImpl::Move() noexcept
 {
     // 处理前进指令
     if (pose.heading == 'E') {
@@ -50,7 +47,7 @@ void Executorlmpl::Move() noexcept
     }
 }
 
-void Executorlmpl::TurnLeft() noexcept
+void ExecutorImpl::TurnLeft() noexcept
 {
     // 处理左转指令（逆时针旋转 90 度）
     if (pose.heading == 'E') {
@@ -64,7 +61,7 @@ void Executorlmpl::TurnLeft() noexcept
     }
 }
 
-void Executorlmpl::TurnRight() noexcept
+void ExecutorImpl::TurnRight() noexcept
 {
     // 处理右转指令（顺时针旋转 90 度）
     if (pose.heading == 'E') {
@@ -78,7 +75,7 @@ void Executorlmpl::TurnRight() noexcept
     }
 }
 
-Pose Executorlmpl::Query() const noexcept
+Pose ExecutorImpl::Query() const noexcept
 {
     return pose;
 }
