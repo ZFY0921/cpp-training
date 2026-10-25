@@ -25,12 +25,25 @@ void Executorlmpl::Execute(const std::string& commands) noexcept
             cmder = std::make_unique<TurnLeftCommand>();
         } else if (cmd == 'R') {
             cmder = std::make_unique<TurnRightCommand>();
+        } else if (cmd == 'F') {
+            cmder = std::make_unique<FastCommand>();
         }
 
         if (cmder) {
             cmder->DoOperate(*this);
         }
     }
+}
+
+void Executorlmpl::Fast() noexcept
+{
+    // 再收到一次 F 指令，加速状态取消
+    fast = !fast;
+}
+
+bool Executorlmpl::IsFast() const noexcept
+{
+    return fast;
 }
 
 void Executorlmpl::Move() noexcept
