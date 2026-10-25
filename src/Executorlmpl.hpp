@@ -3,14 +3,14 @@
 
 namespace adas
 {
-class ExecutorImpl final : public Executor
+class Executorlmpl final : public Executor
 {
 public:
-    explicit ExecutorImpl(const Pose& pose) noexcept;
-    ~ExecutorImpl() noexcept = default;
+    explicit Executorlmpl(const Pose& pose) noexcept;
+    ~Executorlmpl() noexcept = default;
 
-    ExecutorImpl(const ExecutorImpl&) = delete;
-    ExecutorImpl& operator=(const ExecutorImpl&) = delete;
+    Executorlmpl(const Executorlmpl&) = delete;
+    Executorlmpl& operator=(const Executorlmpl&) = delete;
 
 public:
     void Execute(const std::string& command) noexcept override;
@@ -27,14 +27,14 @@ private:
     {
     public:
         virtual ~ICommand() = default;
-        virtual void DoOperate(ExecutorImpl& executor) const noexcept = 0;
+        virtual void DoOperate(Executorlmpl& executor) const noexcept = 0;
     };
 
     // 继承与多态：各指令类只实现自己的 DoOperate，由基类指针统一调用
     class MoveCommand final : public ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept override
+        void DoOperate(Executorlmpl& executor) const noexcept override
         {
             executor.Move();
         }
@@ -43,7 +43,7 @@ private:
     class TurnLeftCommand final : public ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept override
+        void DoOperate(Executorlmpl& executor) const noexcept override
         {
             executor.TurnLeft();
         }
@@ -52,7 +52,7 @@ private:
     class TurnRightCommand final : public ICommand
     {
     public:
-        void DoOperate(ExecutorImpl& executor) const noexcept override
+        void DoOperate(Executorlmpl& executor) const noexcept override
         {
             executor.TurnRight();
         }
