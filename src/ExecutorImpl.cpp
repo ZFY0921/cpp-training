@@ -15,19 +15,19 @@ ExecutorImpl::ExecutorImpl(const Pose& pose) noexcept : pose(pose)
 
 void ExecutorImpl::Execute(const std::string& commands) noexcept
 {
-    // 只负责指令的识别与分发，具体行为由对应的指令类实现
+    // 只负责把字符映射为具体指令对象，执行动作由多态统一完成
     for (const auto cmd : commands) {
+        std::unique_ptr<ICommand> cmder;
+
         if (cmd == 'M') {
-            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
-
-            cmder->DoOperate(*this);
+            cmder = std::make_unique<MoveCommand>();
         } else if (cmd == 'L') {
-            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
-
-            cmder->DoOperate(*this);
+            cmder = std::make_unique<TurnLeftCommand>();
         } else if (cmd == 'R') {
-            std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
+            cmder = std::make_unique<TurnRightCommand>();
+        }
 
+        if (cmder) {
             cmder->DoOperate(*this);
         }
     }
