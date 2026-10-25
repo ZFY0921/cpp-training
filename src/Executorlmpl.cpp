@@ -1,4 +1,7 @@
 #include "Executorlmpl.hpp"
+
+#include <memory>
+
 namespace adas
 {
 Executor* Executor::NewExecutor(const Pose& pose) noexcept
@@ -12,14 +15,23 @@ Executorlmpl::Executorlmpl(const Pose& pose) noexcept : pose(pose)
 
 void Executorlmpl::Execute(const std::string& commands) noexcept
 {
-    // 只负责指令的识别与分发，具体行为由对应的成员函数实现
+    // 只负责指令的识别与分发，具体行为由对应的指令类实现
     for (const auto cmd : commands) {
         if (cmd == 'M') {
-            Move();
+            // Move();
+            std::unique_ptr<MoveCommand> cmder = std::make_unique<MoveCommand>();
+
+            cmder->DoOperate(*this);
         } else if (cmd == 'L') {
-            TurnLeft();
+            // TurnLeft();
+            std::unique_ptr<TurnLeftCommand> cmder = std::make_unique<TurnLeftCommand>();
+
+            cmder->DoOperate(*this);
         } else if (cmd == 'R') {
-            TurnRight();
+            // TurnRight();
+            std::unique_ptr<TurnRightCommand> cmder = std::make_unique<TurnRightCommand>();
+
+            cmder->DoOperate(*this);
         }
     }
 }
