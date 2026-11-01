@@ -50,4 +50,14 @@ public:
         poseHandler.Fast();
     }
 };
+
+// B 指令：切换倒车状态（再收一次 B 即取消）
+class ReverseCommand final
+{
+public:
+    void operator()(PoseHandler& poseHandler) const noexcept
+    {
+        poseHandler.Reverse();
+    }
+};
 }  // namespace adas
