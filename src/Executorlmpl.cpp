@@ -17,20 +17,12 @@ Executorlmpl::Executorlmpl(const Pose& pose) noexcept : poseHandler(pose)
 
 void Executorlmpl::Execute(const std::string& commands) noexcept
 {
-    // 表驱动 + 函数式：表里存的是"行为"，不再是多态对象
+    // 表驱动 + 操作符()重载：表里直接存"可调用对象"，不再暴露任何成员
     std::unordered_map<char, std::function<void(PoseHandler&)>> cmderMap;
-
-    MoveCommand moveCommand;
-    cmderMap.emplace('M', moveCommand.operate);
-
-    TurnLeftCommand turnLeftCommand;
-    cmderMap.emplace('L', turnLeftCommand.operate);
-
-    TurnRightCommand turnRightCommand;
-    cmderMap.emplace('R', turnRightCommand.operate);
-
-    FastCommand fastCommand;
-    cmderMap.emplace('F', fastCommand.operate);
+    cmderMap.emplace('M', MoveCommand());
+    cmderMap.emplace('L', TurnLeftCommand());
+    cmderMap.emplace('R', TurnRightCommand());
+    cmderMap.emplace('F', FastCommand());
 
     for (const auto cmd : commands) {
         const auto it = cmderMap.find(cmd);
