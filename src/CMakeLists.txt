@@ -4,6 +4,7 @@
 set(SRC_FILES
     Executorlmpl.cpp
     PoseHandler.cpp
+    Point.cpp
     # Executor.cpp  <-- 如果你有其他源文件，像这样加进来即可
 )
 
