@@ -1,5 +1,6 @@
 #include "Executorlmpl.hpp"
 #include <memory>
+#include <unordered_map>
 #include "Command.hpp"
 
 namespace adas
@@ -15,23 +16,16 @@ Executorlmpl::Executorlmpl(const Pose& pose) noexcept : poseHandler(pose)
 
 void Executorlmpl::Execute(const std::string& commands) noexcept
 {
-    // 只负责把字符映射为具体指令对象，执行动作由多态统一完成
+    std::unordered_map<char, std::unique_ptr<ICommand>> cmderMap;
+    cmderMap.emplace('M', std::make_unique<MoveCommand>());
+    cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
+    cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
+    cmderMap.emplace('F', std::make_unique<FastCommand>());
+
     for (const auto cmd : commands) {
-        std::unique_ptr<ICommand> cmder;
-
-        if (cmd == 'M') {
-            cmder = std::make_unique<MoveCommand>();
-        } else if (cmd == 'L') {
-            cmder = std::make_unique<TurnLeftCommand>();
-        } else if (cmd == 'R') {
-            cmder = std::make_unique<TurnRightCommand>();
-        } else if (cmd == 'F') {
-            cmder = std::make_unique<FastCommand>();
-        }
-
-        // 指令只依赖 PoseHandler，不再依赖 Executorlmpl，循环依赖被打断
-        if (cmder) {
-            cmder->DoOperate(poseHandler);
+        const auto it = cmderMap.find(cmd);
+        if (it != cmderMap.end()) {
+            it->second->DoOperate(poseHandler);
         }
     }
 }
