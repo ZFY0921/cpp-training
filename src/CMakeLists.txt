@@ -3,6 +3,7 @@
 # 如果你后面还会添加 Executor.cpp 等新文件，可以直接把它们加在下面，或者用 file(GLOB ...) 自动扫描。
 set(SRC_FILES
     Executorlmpl.cpp
+    PoseHandler.cpp
     # Executor.cpp  <-- 如果你有其他源文件，像这样加进来即可
 )
 
