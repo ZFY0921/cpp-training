@@ -1,57 +1,50 @@
 #pragma once
+#include <functional>
+
 #include "PoseHandler.hpp"
 
 namespace adas
 {
-class ICommand
+// 函数式编程：用 std::function + lambda 取代继承体系
+// 指令不再需要基类与虚函数，行为以"可调用对象"的形式直接保存在成员里
+class MoveCommand final
 {
 public:
-    virtual ~ICommand() = default;
-    virtual void DoOperate(PoseHandler& poseHandler) const noexcept = 0;
-};
-
-class MoveCommand final : public ICommand
-{
-public:
-    void DoOperate(PoseHandler& poseHandler) const noexcept override
-    {
+    const std::function<void(PoseHandler& poseHandler)> operate = [](PoseHandler& poseHandler) noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }
         poseHandler.Move();
-    }
+    };
 };
 
-class TurnLeftCommand final : public ICommand
+class TurnLeftCommand final
 {
 public:
-    void DoOperate(PoseHandler& poseHandler) const noexcept override
-    {
+    const std::function<void(PoseHandler& poseHandler)> operate = [](PoseHandler& poseHandler) noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }
         poseHandler.TurnLeft();
-    }
+    };
 };
 
-class TurnRightCommand final : public ICommand
+class TurnRightCommand final
 {
 public:
-    void DoOperate(PoseHandler& poseHandler) const noexcept override
-    {
+    const std::function<void(PoseHandler& poseHandler)> operate = [](PoseHandler& poseHandler) noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }
         poseHandler.TurnRight();
-    }
+    };
 };
 
-class FastCommand final : public ICommand
+class FastCommand final
 {
 public:
-    void DoOperate(PoseHandler& poseHandler) const noexcept override
-    {
+    const std::function<void(PoseHandler& poseHandler)> operate = [](PoseHandler& poseHandler) noexcept {
         poseHandler.Fast();
-    }
+    };
 };
 }  // namespace adas
